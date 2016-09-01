@@ -5,7 +5,8 @@ module Api
 			respond_to :json	
 
 			def index
-				respond_with Product.all
+				products = Product.all
+				render json: products
 			end
 
 			def show
@@ -13,7 +14,13 @@ module Api
 			end
 
 			def create
-				respond_with Product.create(params[:product])
+			 	product = Product.new(product_params)
+
+			 	if product.save
+			 		render json: product, status: 201, location: [:api, product]
+		 		else
+		 			render json: {errors: product.errors}, status: 422
+			 	end	
 			end
 
 			def update
@@ -23,6 +30,16 @@ module Api
 			def destroy
 				respond_with Product.destroy(params[:id])
 			end
+
+			private
+
+			def product_params
+				params.require(:product).permit(:name, :price)				
+			end
+
+
+
+
 		end
 
 	end	
