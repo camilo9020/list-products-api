@@ -3,7 +3,6 @@ module Api
 		class ProductsController < ApplicationController
 			
 			respond_to :json	
-
 			def index
 				products = Product.all
 				render json: products
@@ -15,7 +14,6 @@ module Api
 
 			def create
 			 	product = Product.new(product_params)
-
 			 	if product.save
 			 		render json: product, status: 201, location: [:api, product]
 		 		else
@@ -36,9 +34,6 @@ module Api
 			def product_params
 				params.require(:product).permit(:name, :price)				
 			end
-
-
-
 
 		end
 
