@@ -3,7 +3,9 @@ module Api
 		class ProductsController < ApplicationController
 
 			
-			respond_to :json	
+			skip_before_filter  :verify_authenticity_token
+
+			
 
 			def index
 				products = Product.all
@@ -22,15 +24,15 @@ module Api
 		 		else
 		 			render json: @product.errors, status: :unprocessable_entity
 		 		end
-
-			 	# respond_to do |format|		 			
-				 # 	if @product.save
-				 # 		format.json {render json: @product, status: 201}
-			 	# 	else
-			 	# 		format.json {render json: @product.errors, status: :unprocessable_entity}
-				 # 	end	
-		 		# end
 			end
+
+				 	# respond_to do |format|		 			
+					 # 	if @product.save
+					 # 		format.json {render json: @product, status: 201}
+				 	# 	else
+				 	# 		format.json {render json: @product.errors, status: :unprocessable_entity}
+					 # 	end	
+			 		# end
 
 			def update
 				respond_with Product.updatee(params[:id], params[:product])
