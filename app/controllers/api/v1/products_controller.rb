@@ -1,20 +1,12 @@
 module Api
 	module V1
 		class ProductsController < ApplicationController
-
-			
+			before_action :find_product, only: [:update, :destroy]			
 			skip_before_filter  :verify_authenticity_token
-
-			
 
 			def index
 				products = Product.all
-				render json: products		
-
-			end
-
-			def show
-				respond_with Product.find(params[:id])
+				render json: products
 			end
 
 			def create
@@ -26,20 +18,17 @@ module Api
 		 		end
 			end
 
-				 	# respond_to do |format|		 			
-					 # 	if @product.save
-					 # 		format.json {render json: @product, status: 201}
-				 	# 	else
-				 	# 		format.json {render json: @product.errors, status: :unprocessable_entity}
-					 # 	end	
-			 		# end
-
-			def update
-				respond_with Product.updatee(params[:id], params[:product])
+			def update				
+				if @product.update(product_params)
+					render json: @product, status: 200
+				else
+					render json: @product.errors, status: 422 
+				end
 			end
 
 			def destroy
-				respond_with Product.destroy(params[:id])
+				@product.destroy
+				head :no_content				
 			end
 
 			private
@@ -48,6 +37,9 @@ module Api
 				params.require(:product).permit(:name, :price)				
 			end
 
+			def find_product
+				@product = Product.find(params[:id])				
+			end
 		end
 
 	end	
