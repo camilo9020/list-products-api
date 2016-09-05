@@ -20,7 +20,7 @@ module Api
 			 	if @product.save
 			 		render json: @product, status: :created
 		 		else
-		 			render json: @prodcut.errors, status: :unprocessable_entity
+		 			render json: @product.errors, status: :unprocessable_entity
 		 		end
 
 			 	# respond_to do |format|		 			
