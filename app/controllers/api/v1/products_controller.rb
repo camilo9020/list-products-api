@@ -16,12 +16,20 @@ module Api
 			end
 
 			def create
-			 	product = Product.new(product_params)
-			 	if product.save
-			 		render json: product, status: 201, location: [:api, product]
+			 	@product = Product.new(product_params)	
+			 	if @product.save
+			 		render json: @product, status: :created
 		 		else
-		 			render json: {errors: product.errors}, status: 422
-			 	end	
+		 			render json: @prodcuts.errors, status: :unprocessable_entity
+		 		end
+
+			 	# respond_to do |format|		 			
+				 # 	if @product.save
+				 # 		format.json {render json: @product, status: 201}
+			 	# 	else
+			 	# 		format.json {render json: @product.errors, status: :unprocessable_entity}
+				 # 	end	
+		 		# end
 			end
 
 			def update
